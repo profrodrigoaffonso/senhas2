@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Senhas;
 use App\Models\Chamadas;
 use App\Models\TelaMaster;
+use App\Models\Configs;
 
 class TelaController extends Controller
 {
     //
 
     public function master(){
-        return view('tela.master');
+
+        $config = Configs::findOrFail(1);
+
+        return view('tela.master', compact('config'));
     }
 
 
@@ -79,6 +83,21 @@ class TelaController extends Controller
         
         return view('tela.anteriores', compact('chamadas'));
 
+    }
+
+    public function exibeMaster(){
+
+        $telaMaster = Chamadas::select('chamadas.id chamada_id', 'senhas.senha', 'guiches.nome')
+            ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
+            ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
+            ->where('exibe_master', 's')
+            ->first()
+            ->get();
+        
+        if($telaMaster){
+
+
+        }
     }
 
 
