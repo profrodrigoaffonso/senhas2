@@ -12,6 +12,11 @@ class TelaController extends Controller
 {
     //
 
+    public function master(){
+        return view('tela.master');
+    }
+
+
     public function chamar($guiche_id){
 
         $senha = Senhas::select()
@@ -63,15 +68,17 @@ class TelaController extends Controller
 
     function anteriores(){
 
-        $chamadas = Chamadas::select('*')
-            ->orderBy('id', 'DESC')
+        $chamadas = Chamadas::select('senhas.senha', 'guiches.nome')
+            ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
+            ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
+            ->orderBy('chamadas.id', 'DESC')
             ->get();
-        
-        foreach($chamadas as $chamada){
-            
-        }
 
-        //dd($chamadas);
+        // dd($chamadas);
+
+        
+        return view('tela.anteriores', compact('chamadas'));
+
     }
 
 

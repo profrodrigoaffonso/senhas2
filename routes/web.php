@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'App\Http\Controllers\TelaController@master')->name('tela.master');
+
 
 Route::get('/{guiche_id}/chamar', 'App\Http\Controllers\TelaController@chamar')->name('tela.chamar');
 Route::get('/{guiche_id}/repetir', 'App\Http\Controllers\TelaController@repetir')->name('tela.repetir');
