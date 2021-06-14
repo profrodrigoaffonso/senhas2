@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/{guiche_id}/chamar', 'App\Http\Controllers\TelaController@chamar')->name('tela.chamar');
+Route::get('/{guiche_id}/repetir', 'App\Http\Controllers\TelaController@repetir')->name('tela.repetir');
+Route::get('/anteriores', 'App\Http\Controllers\TelaController@anteriores')->name('tela.anteriores');
+
 Route::prefix('guiches')->group(function(){
     Route::get('/', 'App\Http\Controllers\GuichesController@index')->name('guiches.index');
     Route::get('/create', 'App\Http\Controllers\GuichesController@create')->name('guiches.create');

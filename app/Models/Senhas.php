@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Senhas extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['em_uso'];
 }

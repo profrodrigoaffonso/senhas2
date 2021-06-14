@@ -27,7 +27,7 @@ class GuichesController extends Controller
 
     public function store(Request $request){
 
-        //  die('kk');
+        //  die('aqui');
 
         $dados = $request->all();
 
@@ -39,7 +39,7 @@ class GuichesController extends Controller
 
     public function edit($id){
 
-        // die('kk');
+        //  die('aqui');
         $guiche = Guiches::findOrFail($id);
         // dd($guiche);
         return view('guiches.edit', compact('guiche'));
@@ -48,7 +48,6 @@ class GuichesController extends Controller
 
     public function update(Request $request){
 
-        //  die('kk');
 
         $dados = $request->all();
 

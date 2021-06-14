@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Chamadas extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['senha_id', 'guiche_id'];
 }

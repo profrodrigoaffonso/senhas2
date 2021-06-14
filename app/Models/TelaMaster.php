@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TelaMaster extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['senha_id', 'guiche_id', 'som'];
 }
