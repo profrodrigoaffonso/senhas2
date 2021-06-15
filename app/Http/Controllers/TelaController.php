@@ -9,6 +9,8 @@ use App\Models\Chamadas;
 use App\Models\TelaMaster;
 use App\Models\Configs;
 
+use Illuminate\Support\Facades\DB;
+
 class TelaController extends Controller
 {
     //
@@ -76,6 +78,7 @@ class TelaController extends Controller
             ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
             ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
             ->orderBy('chamadas.id', 'DESC')
+            ->limit(5)
             ->get();
 
         // dd($chamadas);
@@ -85,19 +88,66 @@ class TelaController extends Controller
 
     }
 
-    public function exibeMaster(){
+    public function atual(){
 
-        $telaMaster = Chamadas::select('chamadas.id chamada_id', 'senhas.senha', 'guiches.nome')
+        $telaMaster = Chamadas::select('chamadas.id AS chamada_id', 'senhas.senha', 'guiches.nome', 'chamadas.som')
             ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
             ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
             ->where('exibe_master', 's')
-            ->first()
-            ->get();
+            ->first();
         
         if($telaMaster){
+            // dd($telaMaster->chamada_id);
+            // $telaMaster->update([
+            //     'exibe_master' => 'n'
+            // ]);
 
+            $tabela = Chamadas::findOrFail($telaMaster->chamada_id);
 
+            // dd($tabela); 
+
+            $tabela->update([
+                'exibe_master' => 'n'
+            ]);
+
+            //dd('jjj');
+
+            $som = $telaMaster->som;
+
+            if($som == 's'){
+                $tabela->update([
+                    'som' => 'n'
+                ]);               
+            }
+
+        } else {
+            $telaMaster = TelaMaster::select()
+                ->join('senhas','tela_masters.senha_id', '=', 'senhas.id')
+                ->join('guiches','tela_masters.guiche_id', '=', 'guiches.id')
+                ->where('tela_masters.id', 1)
+                ->first();
+
+            // dd($telaMaster);
+
+            $som = $telaMaster['som'];
+
+            if($som == 's'){
+                $telaMaster->update([
+                    'som' => 'n'
+                ]);
+            }
         }
+
+        $tabela = TelaMaster::findOrFail(1);
+
+        $tabela->update([
+            'som' => 'n'
+        ]);
+
+
+        //echo $som;
+
+        return view('tela.atual', compact('telaMaster', 'som'));
     }
 
 

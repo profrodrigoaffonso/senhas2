@@ -23,6 +23,7 @@ Route::get('/', 'App\Http\Controllers\TelaController@master')->name('tela.master
 Route::get('/{guiche_id}/chamar', 'App\Http\Controllers\TelaController@chamar')->name('tela.chamar');
 Route::get('/{guiche_id}/repetir', 'App\Http\Controllers\TelaController@repetir')->name('tela.repetir');
 Route::get('/anteriores', 'App\Http\Controllers\TelaController@anteriores')->name('tela.anteriores');
+Route::get('/atual', 'App\Http\Controllers\TelaController@atual')->name('tela.atual');
 
 Route::prefix('guiches')->group(function(){
     Route::get('/', 'App\Http\Controllers\GuichesController@index')->name('guiches.index');
