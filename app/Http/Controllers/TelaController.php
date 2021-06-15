@@ -26,9 +26,9 @@ class TelaController extends Controller
 
         //seleciona a próxima senha disponível
         $senha = Senhas::select()
-            ->where('em_uso', 'n')
-            ->orderBy('id', 'ASC')
-            ->first();
+                ->where('em_uso', 'n')
+                ->orderBy('id', 'ASC')
+                ->first();
 
         $dados = [
             'senha_id' => $senha->id,
@@ -58,9 +58,9 @@ class TelaController extends Controller
     public function repetir($guiche_id){
 
         $chamada = Chamadas::select('senha_id')
-            ->where('guiche_id', $guiche_id)
-            ->orderBy('id', 'DESC')
-            ->first();
+                    ->where('guiche_id', $guiche_id)
+                    ->orderBy('id', 'DESC')
+                    ->first();
         
         $telaMaster = TelaMaster::findOrFail(1);
 
@@ -77,11 +77,11 @@ class TelaController extends Controller
 
         // exibe as últimas 5 senhas chamadas
         $chamadas = Chamadas::select('senhas.senha', 'guiches.nome')
-            ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
-            ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
-            ->orderBy('chamadas.id', 'DESC')
-            ->limit(5)
-            ->get();
+                    ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
+                    ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
+                    ->orderBy('chamadas.id', 'DESC')
+                    ->limit(5)
+                    ->get();
 
         
         return view('tela.anteriores', compact('chamadas'));
@@ -94,10 +94,10 @@ class TelaController extends Controller
 
         // retorna a última senha chamada com a condição que não foi exibida na tela master
         $telaMaster = Chamadas::select('chamadas.id AS chamada_id', 'senhas.senha', 'guiches.nome', 'chamadas.som')
-            ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
-            ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
-            ->where('exibe_master', 's')
-            ->first();
+                    ->join('senhas','chamadas.senha_id', '=', 'senhas.id')
+                    ->join('guiches','chamadas.guiche_id', '=', 'guiches.id')
+                    ->where('exibe_master', 's')
+                    ->first();
         
         if($telaMaster){ // se encontrada
          
@@ -117,11 +117,11 @@ class TelaController extends Controller
             }
 
         } else { // caso não encontre o registro na tabela chamadas, exibe o que está na tabela tela_masters
-            $telaMaster = TelaMaster::select()
-                ->join('senhas','tela_masters.senha_id', '=', 'senhas.id')
-                ->join('guiches','tela_masters.guiche_id', '=', 'guiches.id')
-                ->where('tela_masters.id', 1)
-                ->first();
+            $telaMaster = TelaMaster::select('senhas.senha', 'guiches.nome', 'tela_masters.som')
+                        ->join('senhas','tela_masters.senha_id', '=', 'senhas.id')
+                        ->join('guiches','tela_masters.guiche_id', '=', 'guiches.id')
+                        ->where('tela_masters.id', 1)
+                        ->first();
 
             // altera o som para não para apenas executar uma vez
             $som = $telaMaster['som'];
